@@ -1,0 +1,1022 @@
+import com.sample.Number;
+import java.math.*;
+
+dialect "java"
+
+rule "Print" salience 21
+when
+	acs : Number(true)
+then
+	System.out.println("\n*** The entered number is '"+acs.getNum()+"'. ***\n");
+end
+
+
+rule "Odd" salience 20
+when 
+	acs : Number( num == num) and Number ( num != 0 )
+then 
+	String temp = String.valueOf(acs.getNum());
+	int n = Integer.valueOf(temp);
+	n = Math.abs(n);
+	if(n % 2 == 1){
+	System.out.println();
+	System.out.println(acs.getNum()+" -> odd\n");
+	}
+end
+
+
+rule "Even" salience 19 
+when
+	acs : Number( num == num ) and Number ( num != 0 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int n = Integer.valueOf(temp);
+	n = Math.abs(n);
+	if(n % 2 == 0){
+	System.out.println();
+	System.out.println(acs.getNum()+" -> Even\n");
+	}
+end
+
+
+rule "Prime" salience 18
+when
+	acs : Number ( num == num ) and Number ( num != 0 ) and Number ( num != 1 )
+then
+    String temp = String.valueOf(acs.getNum());
+	int n = Integer.valueOf(temp);
+	n = Math.abs(n);
+	int flag = 0;
+	if(n != 2){
+		for(int i=2;i<n;i++){
+			if(n%i == 0){
+				flag = 1;
+				break;
+				}
+			}
+	}
+	if(flag == 0){ 
+		System.out.println("\nPrime Number\n");
+			}
+end
+
+
+rule "Sqr" salience 17
+when
+	acs : Number ( num == num ) 
+then
+	System.out.println("\nThe square of "+acs.getNum()+" is "+acs.getNum().multiply(acs.getNum()));
+	System.out.println();
+end
+
+
+rule "cube" salience 16
+when
+	acs : Number ( num == num)
+then
+	System.out.println("\nThe cube of "+acs.getNum()+" is "+(acs.getNum().multiply(acs.getNum())).multiply(acs.getNum()));
+	System.out.println();
+end
+
+
+rule "Sqrt" salience  15
+when
+	acs : Number ( num == num ) 
+then
+	int flag = 0;
+	String temp = String.valueOf(acs.getNum());
+	if(Integer.valueOf(temp) < 0){
+		flag = 1;
+	}
+	temp = temp.replaceAll("-","");
+	int n = Integer.valueOf(temp);
+	if(flag == 1){
+		System.out.println("\nsquare root : -"+Math.sqrt(n));
+		System.out.println();
+	}
+	else{
+		System.out.println("\nsquare root : "+Math.sqrt(n));
+		System.out.println();
+	}
+	double n1 = Math.sqrt(n);
+	long n2 = Math.round(Math.sqrt(n));
+	if(n1 - n2 == 0){
+		System.out.println("\nPerfect Square Number\n");
+	}
+end
+
+
+rule "cbrt" salience 14
+when
+	acs : Number ( num == num ) 
+then
+	int flag = 0;
+	String temp = String.valueOf(acs.getNum());
+	if(Integer.valueOf(temp) < 0){
+		flag = 1;
+	}
+	temp = temp.replaceAll("-","");
+	int n = Integer.valueOf(temp);
+	if(flag == 1){
+		System.out.println("\nCube root : -"+Math.cbrt(n));
+		System.out.println();
+	}
+	else{
+		System.out.println("\nCube root : "+Math.cbrt(n));
+		System.out.println();
+	}
+	double n1 = Math.cbrt(n);
+	long n2 = Math.round(Math.cbrt(n));
+	if(n1 - n2 == 0){
+		System.out.println("\nPerfect Cube Number\n");
+	}
+end
+
+
+rule "Kaprekar" salience 13
+when
+	acs : Number ( num > 0 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int n = Integer.valueOf(temp);
+	int sum = 0,ans = 0;
+	int sqr = n * n;
+	for(int i=0;i<temp.length();i++){
+		sum = sum + (int)temp.charAt(i) - 48;
+		}
+	String sqans = String.valueOf(sqr);
+	for(int i=0;i<sqans.length();i++){
+		ans = ans + (int)sqans.charAt(i) - 48;
+		}
+		if(sum == ans){
+		System.out.println("\nKaprekar Number\n");
+		} 
+end
+
+
+function int setArms(int n,int ans){
+	int pdt = 1;
+	for(int i=0;i<n;i++){
+		pdt = pdt * ans;
+		}
+	return pdt;
+}
+
+
+rule "ArmStrong" salience 1
+when
+	acs : Number ( num > 0 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int len = temp.length();
+	int n = Integer.valueOf(temp);
+	int sum = 0,ans = 0;
+	for(int i=0;i<temp.length();i++){
+		ans =  (int)temp.charAt(i) - 48;
+		sum = sum + setArms(len,ans);
+		}
+		if(sum == n){
+			System.out.println("\nArmstrong Number\n");
+			}
+end
+
+
+rule "Palindrome" salience 12
+when
+	acs : Number ( num == num)
+then
+	String s = String.valueOf(acs.getNum());
+	s = s.replaceAll("-","");
+	String t = "";
+	for(int i=s.length()-1;i>=0;i--){
+	t = t + s.charAt(i);
+	}
+	int flag = 0;
+	if(s.equals(t)){
+		System.out.println("\nPalindrome\n");
+		}
+end
+
+
+rule  "Positive" salience 11
+when
+	acs : Number ( num > 0)
+then
+	System.out.println("\nPositive Number\n");
+end
+
+
+rule "Negative" salience 10
+when
+	Number( num < 0 )
+then
+	System.out.println("\nNegative Number\n");
+end
+
+
+rule "2" salience 9
+when
+	Number( num == 2)
+then
+	System.out.println("\nSpeciality : Even Prime Number\n");
+end
+
+
+rule "isAscii" salience  8
+when
+	acs : Number( num == num)
+then
+	String s = String.valueOf(acs.getNum());
+	int n = Integer.valueOf(s);
+	System.out.println("\nIt is an ascii value of "+n+" : "+(char)n);
+	System.out.println();
+end
+
+
+rule "Digits" salience 7
+when
+	acs : Number(num == num)
+then
+	String temp = String.valueOf(acs.getNum());
+	int len = temp.length();
+	int flag = 0;
+	for(int i=0;i<len;i++){
+		if(temp.charAt(i) == '-'){
+			flag = 1;
+		}
+	}
+	if(flag == 1){
+		len = len - 1;
+		}
+	System.out.println("\nThe Number of digits : "+len);
+	System.out.println();
+end
+
+
+function int Power(int x){
+	x = x/2;
+	if(x % 2 == 1){
+		return 0;
+		}
+	if(x/2 == 2 || x == 2){
+		return 1;
+	}
+	return Power(x);
+ }
+
+
+rule "Power2" salience 6
+when
+	acs : Number( num != 2 ) and Number ( num > 0 )
+then	
+		int flag = 0;
+		String s = String.valueOf(acs.getNum());
+		int n = Integer.valueOf(s);
+	if(n % 2 == 0){
+		flag = Power(n); 
+		if(flag == 1){
+		System.out.println("\nPower of 2\n");
+	}
+	}
+end
+
+
+rule "Great3" salience 5
+when
+	acs : Number ( num > 0 )
+then
+	String temp =  String.valueOf(acs.getNum());
+	int count = 0;
+	int n = temp.length();
+	for(int i=0;i<temp.length();i++){
+		if(temp.charAt(i) == '9'){
+			count++;
+			}
+			else{
+			break;
+			}
+		}
+	if(count == n){
+		System.out.println("\nLargest "+n+" digit number.\n");
+		}
+end
+
+
+rule "Least3" salience 4
+when
+	acs : Number( num > 0 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int n = temp.length();
+	int flag = 0;
+	for(int i=1;i<n;i++){
+		if(temp.charAt(i) != '0'){
+			flag  =	1;
+			break;
+			}
+		}
+		if(flag == 0 && temp.charAt(0) == '1'){
+			System.out.println("\nLeast "+n+" digit Positive Number.\n");
+			} 
+end
+
+
+rule "0" salience 3
+when
+	acs : Number ( num == 0 )
+then
+	System.out.println("\nNeither even nor Odd\nNeither Positive nor Negative\nFound by India\n");
+end
+
+
+rule "Binary" salience  2
+when 
+	acs : Number ( num == 0 ) or Number ( num == 1 )
+then
+	System.out.println("\nBinary Number\n");
+end
+
+
+function int fact(int n){
+	int pdt = 1;
+	for(int i=1;i<=n;i++){
+		pdt = pdt * i;
+	}
+	return pdt;
+}
+
+
+rule "KrishnaMurthy"
+when
+	acs : Number ( num > 0 )
+then
+   String temp = String.valueOf(acs.getNum());
+   int n = Integer.valueOf(temp);
+   int sum = 0;
+   for(int i=0;i<temp.length();i++){
+   		sum = sum + fact((int)temp.charAt(i) - 48);
+   }
+   if((String.valueOf(sum)).equals(temp)){
+   	System.out.println("KrishnaMurthy Number");
+   	}
+end
+
+
+rule "Date 15" salience -34
+when
+	acs : Number ( num ==  15 )
+then
+	System.out.println("August 15 -> Independence Day \nSeptember 15 -> Engineer's Day");
+end
+
+
+rule "Date 1" salience -34
+when
+	acs : Number ( num == 1 ) 
+then
+	System.out.println("January 1 -> New Year");
+end
+
+
+rule "Date 2" salience -34
+when
+	acs : Number ( num == 2 )
+then
+	System.out.println("October 2 -> Gandhi Jayanthi");
+end
+
+
+rule "Date 5" salience -34
+when
+	acs : Number ( num == 5 )
+then
+	System.out.println("September 5 -> Teacher's Day");
+end
+
+
+rule "Date 26" salience -34
+when
+	acs : Number( num == 26)
+then
+	System.out.println("January 26 -> Republic Day");
+end
+
+
+rule "Date 25" salience -34
+when
+	acs : Number ( num == 25 )
+then
+	System.out.println("December 25 -> christmas ");
+end
+
+
+rule "Date 14" salience -34
+when
+	acs : Number ( num == 14 )
+then
+	System.out.println("November 14 -> Children's Day");
+end
+
+
+rule "Date 31" salience -34
+when
+	acs : Number ( num == 31 )
+then
+	System.out.println("December 31 -> End of Current Year");
+end
+
+
+rule "Date 21" salience -34
+when
+	acs : Number ( num == 21 )
+then
+	System.out.println("June 21 -> Yoga Day");
+end
+
+
+rule "Date 29" salience -34
+when
+	acs : Number ( num == 29 )
+then
+	System.out.println("Febraury 29 -> comes once in 4 years");
+end
+
+
+rule "Month 1" salience -35
+when
+	acs : Number ( num == 1 )
+then
+	System.out.println("Month 1 -> January");
+end
+
+
+rule "Month 2" salience -35
+when 
+	acs : Number ( num == 2 )
+then
+	System.out.println("Month 2 -> Febrauary");
+end
+
+
+rule "Month 3" salience -35
+when
+	acs : Number ( num == 3 )
+then
+	System.out.println("Month 3 -> March");
+end
+
+
+rule "Month 4" salience -35
+when
+	acs : Number ( num == 4 )
+then
+	System.out.println("Month 4 -> April");
+end
+
+
+rule "Month 5" salience -35
+when
+	acs : Number ( num == 5 )
+then
+	System.out.println("Month 5 -> May");
+end
+
+
+rule "Month 6" salience -35
+when
+	acs : Number ( num == 6 )
+then
+	System.out.println("Month 6 -> June");
+end
+
+
+rule "Month 7" salience -35
+when
+	acs : Number ( num == 7 )
+then
+	System.out.println("\nMonth 7 -> July\n");
+end
+
+
+rule "Month 8" salience -35
+when
+	acs : Number ( num == 8 )
+then
+	System.out.println("\nMonth 8 -> August\n");
+end
+
+
+rule "Month 9" salience -35
+when
+	acs : Number ( num == 9 )
+then
+	System.out.println("\nMonth 9 -> September\n");
+end
+
+
+rule "Month 10" salience -35
+when
+	acs : Number ( num == 10 )
+then
+	System.out.println("\nMonth 10 -> October\n");
+end
+
+
+rule "Month 11" salience -35
+when
+	acs : Number ( num == 11 )
+then
+	System.out.println("\nMonth 11 -> November\n");
+end
+
+
+rule "Month 12" salience -35
+when
+	acs : Number ( num == 12 )
+then
+	System.out.println("\nMonth 12 -> December\n");
+end
+
+
+rule "100" salience -36
+when
+	acs : Number ( num == 100 )
+then
+	System.out.println("\n100 -> Police\n");
+end
+
+
+rule "101" salience -36
+when
+	acs : Number ( num == 101 )
+then
+	System.out.println("\n101 -> FireEngine\n");
+end
+
+
+rule "108" salience -36
+when
+	acs : Number ( num == 108 )
+then
+	System.out.println("\n108 -> Ambulance\n");
+end
+
+
+rule "Factors" salience 1
+when
+	acs : Number ( num > 0 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int num = Integer.valueOf(temp);
+	System.out.println("The factors of "+acs.getNum()+" are : ");
+	for(int i=1;i<=num;i++){
+		if(num % i == 0) {
+			System.out.print(i+" ");
+			}
+		}
+		System.out.println();
+end
+
+
+rule "Sum"
+when 
+	acs : Number ( num > 0 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int sum  = 0;
+	for(int i=0;i<temp.length();i++){
+		sum = sum + (int)temp.charAt(i) - 48;
+	}
+	System.out.println("\n");
+	System.out.println("\nThe sum of digits is : "+sum);
+end
+
+
+rule "product"
+when
+	acs : Number ( num >  0 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int pdt = 1;
+	for(int i=0;i<temp.length();i++){
+		pdt = pdt * ((int)temp.charAt(i) -48) ;
+	}
+	System.out.println("The product of the digits : "+pdt);
+end
+
+
+function int Sqr(int x){
+	return x*x;
+}
+
+
+rule "HappyNumber"
+when
+	acs : Number ( num > 0 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int len = temp.length();
+	int sum = 0;
+	int n = Integer.valueOf(temp);
+	for(int i=0;i<len;i++){
+		sum = sum + Sqr((int)temp.charAt(i)-48);
+		if(sum == 1){
+			System.out.println("\n\nHappy Number\n\n");
+			break;
+			}
+	}
+end
+
+
+function int isIncrease(int x,int y){
+	if( x < y )
+		return 1;
+	return 0;
+}
+
+
+rule "IncreasingDigits"
+when
+	acs : Number ( num > 9 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int sum = 0;
+	for(int i=0;i<temp.length()-1;i++){
+		sum = sum + isIncrease((int)temp.charAt(i)-48 , (int)temp.charAt(i+1)-48);
+		}
+		if(sum+1 == temp.length()){
+			System.out.println("\nIncreaing digits -> "+temp+"\n");
+		}
+end
+
+
+rule "DecreasingDigits"
+when
+	acs : Number ( num > 9 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int sum = 0;
+	for(int i=0;i<temp.length()-1;i++){
+		sum = sum + isIncrease((int)temp.charAt(i)-48 , (int)temp.charAt(i+1)-48);
+		}
+		if(sum == 0){
+			System.out.println("\nDecreasing digits -> "+temp+"\n");
+		}
+end
+
+
+rule "Factorial"
+when
+	acs : Number ( num <= 30)
+then
+	String temp = String.valueOf(acs.getNum());
+	int n = Integer.valueOf(temp);
+	System.out.println("\nThe factorial of "+temp+" is : "+fact(n)+"\n");
+end
+
+
+rule "BinaryValue"
+when
+	acs : Number ( num > 0 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int n = Integer.valueOf(temp);
+	String res = "" , result = "";
+	while( n > 0 ){
+		int a = n%2;
+		n = n/2;
+		res = res + a;
+	}
+	for(int i=res.length()-1;i>=0;i--){
+		result = result + res.charAt(i);
+		}
+		System.out.println("\nBinary Value : "+result+"\n");
+end
+
+
+rule "Octal"
+when
+	acs : Number ( num > 0 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int n = Integer.valueOf(temp);
+	String res = "" , result = "";
+	while( n > 0 ){
+		int a = n%8;
+		n = n/8;
+		res = res + a;
+	}
+	for(int i=res.length()-1;i>=0;i--){
+		result = result + res.charAt(i);
+		}
+		System.out.println("\nOctal Value : "+result+"\n");
+end
+
+
+rule "0to9"
+when
+	acs : Number ( num > 0 )
+then
+	String temp = String.valueOf(acs.getNum());
+	String res = "";
+	int a[] = new int[100];
+	for(int i=0;i<a.length;i++){
+		a[i] = 0;
+		}
+	for(int i=0;i<temp.length();i++){
+		a[(int)temp.charAt(i) -48]++;
+		}
+	for(int i=0;i<a.length;i++){
+		if(a[i] > 0){
+			res = res + String.valueOf(i) + " ";
+		}
+		}
+		System.out.println("\nThe digits it contains are :\n"+res);
+end
+
+
+rule "Alphabets"
+when
+	acs : Number ( num >= 1) and Number ( num <= 26 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int n = Integer.valueOf(temp);	
+	int check = 65 + n -1;
+	char chr = (char)check;
+	System.out.println("\nThe "+acs.getNum()+" corresponds to "+chr+" in aplhabets\n");
+end
+
+
+rule "Reverse"
+when
+	acs : Number ( num > 9 )
+then
+	String temp = String.valueOf(acs.getNum());
+	String result = "";
+	for(int i=temp.length()-1;i>=0;i--){
+		result = result + temp.charAt(i);
+		}
+		System.out.println("\nThe reverse of "+temp+" is :"+result+"\n");
+end
+
+
+rule "Vowel"
+when
+	acs : Number ( num >= 1 ) and Number ( num <= 26 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int n = Integer.valueOf(temp);	
+	int check = 65 + n -1;
+	char chr = (char)check;
+	if(chr == 'A' || chr == 'E' || chr == 'I' || chr == 'O' || chr == 'U'){
+		System.out.println("\nThe alphabet of "+temp+" is a VOWEL");
+	}
+	else{
+		System.out.println("\nThe alphabet of "+temp+" is a CONSONANT");
+	}
+end
+
+
+rule "7"
+when
+	acs : Number ( num == 7 )
+then
+	System.out.println("\n1 week -> 7 days\nKind of sounds -> 7\n");
+end
+
+
+rule "6"
+when
+	acs : Number ( num == 6 )
+then
+	System.out.println("\nKind of tastes -> 6\n");
+end
+
+
+rule "8"
+when
+	acs : Number ( num == 8 )
+then
+	System.out.println("\nTotal no. of. directions -> 8\n");
+end
+
+
+rule "9"
+when
+	acs : Number ( num == 9 )
+then
+	System.out.println("\nTotal no. of. expressions -> 9\n");
+end
+
+
+rule "Day 1"
+when
+	acs : Number ( num == 1 )
+then
+	System.out.println("\nDay 1 -> Sunday\n");
+end
+
+
+rule "Day 2"
+when
+	acs : Number ( num == 2 )
+then
+	System.out.println("\nDay 2 -> Monday\n");
+end
+
+
+rule "Day 3"
+when
+	acs : Number ( num == 3 )
+then
+	System.out.println("\nDay 3 -> Tuesday\n");
+end
+
+
+rule "Day 4"
+when
+	acs : Number ( num == 4 )
+then
+	System.out.println("\nDay 4 -> Wednesday\n");
+end
+
+
+rule "Day 5"
+when
+	acs : Number ( num == 5 )
+then
+	System.out.println("\nDay 5 -> Thursday\n");
+end
+
+
+rule "Day 6"
+when
+	acs : Number ( num == 6 )
+then
+	System.out.println("\nDay 6 -> Friday\n");
+end
+
+
+rule "Day 7"
+when
+	acs : Number ( num == 7 )
+then
+	System.out.println("\nDay 7 -> Saturday\n");
+end
+
+
+rule "LargestDigit"
+when
+	acs : Number ( num > 9 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int a[] = new int[temp.length()];
+	for(int i=0;i<temp.length();i++){
+		a[i] = (int)temp.charAt(i) - 48;
+		}
+	int max = a[0];
+	for(int i=0;i<temp.length();i++){
+		if( max < a[i] ){
+			max = a[i];
+			}
+		}
+	System.out.println("\nThe Largest digit of "+temp+" is : "+max+"\n");
+end
+
+
+rule "SmallestDigit"
+when
+	acs : Number ( num > 9 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int a[] = new int[temp.length()];
+	for(int i=0;i<temp.length();i++){
+		a[i] = (int)temp.charAt(i) - 48;
+		}
+	int min = a[0];
+	for(int i=0;i<temp.length();i++){
+		if(min > a[i]){	
+			min = a[i];
+			}
+		}
+	System.out.println("\nThe Smallest digit of "+temp+" is : "+min+"\n");
+end
+	
+	
+rule "Permutation"
+when
+	acs : Number ( num > 0 )
+then
+	String temp = String.valueOf(acs.getNum());
+	int len = temp.length();
+	int possible = 1;
+	for(int	i=1;i<=len;i++){
+		possible = possible * i;
+		}
+	System.out.println("\nThe possible count of numbers can be formed : "+possible+"\n");
+end
+
+
+rule "Combination"
+when
+ 	acs : Number ( num > 0 )
+then
+ 	System.out.println();
+end
+
+
+rule "Display"
+when
+	acs : Number ( num > 0 )
+then
+	System.out.println();
+end
+
+
+rule "Show"
+when
+	acs : Number ( num > 0 )
+then
+	System.out.println();
+end
+
+
+rule "Explain"
+when
+	acs : Number ( num > 0 )
+then
+	System.out.println();
+end
+
+
+rule "Establish"
+when
+	acs : Number ( num > 0 )
+then
+	System.out.println();
+end
+
+
+rule "Greeting"
+when
+	acs  : Number ( num > 0 )
+then
+	System.out.println();
+end
+
+
+rule "Simple"
+when
+	acs : Number ( num > 0 )
+then
+	System.out.println();
+end
+
+
+rule "Complex"
+when
+	acs : Number ( num > 0 )
+then
+	System.out.println();
+end
+
+
+rule "Compound"
+when
+	acs : Number ( num > 0 )
+then
+	System.out.println();
+end
+
+
+rule "Testing"
+when
+	acs : Number ( num > 0 )
+then
+	System.out.println();
+end
+
+
+rule "Shout"
+when
+	acs : Number ( num > 0 )
+then
+	System.out.println();
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
